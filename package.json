@@ -1,0 +1,24 @@
+{
+  "name": "chrome-ext-oauth",
+  "version": "0.0.1",
+  "description": "oauth module for chrome extension",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "$(npm bin)/mocha"
+  },
+  "keywords": [
+    "chrome-extension",
+    "oauth"
+  ],
+  "author": "Yoshiyuki Kato",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^2.0.0",
+    "mocha": "^3.1.0",
+    "power-assert": "^1.4.1",
+    "request": "^2.75.0"
+  }
+}
