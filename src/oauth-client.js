@@ -74,16 +74,14 @@ class OAuthClient{
         }).join("&");
         let url = `${baseurl}?${paramStr}`;
         chrome.tabs.create({ url: url });
-        //* add listener for callback page
+        
         let handleAuthorizeCallback = this._handleAuthorizeCallback.bind(this);
         chrome.tabs.onUpdated.addListener(handleAuthorizeCallback);
-        //* add listener for callback handling end
+        
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           if(request.type === "authorize"){
-            //* remove listener when process finised
             chrome.tabs.onUpdated.removeListener(handleAuthorizeCallback);
-            //* pass to next
-            resolve(request.data);
+            resolve(request.result);
           }else if(request.type === "authorize" && request.status === "error"){
             reject("required params is not given with authorize callback"); 
           }
@@ -100,8 +98,8 @@ class OAuthClient{
     if(urlobj.baseurl === this.params.url_authorize_callback){
       if(!this.authorize_end){
         this.authorize_end = true;
+        chrome.runtime.sendMessage({ type:"authorize", result: urlobj });
         chrome.tabs.remove(tabId);
-        chrome.runtime.sendMessage({ type:"authorize", data: urlobj });
       }
     }else{
       //nothing to do 
